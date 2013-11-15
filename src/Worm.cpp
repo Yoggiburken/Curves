@@ -7,8 +7,6 @@ const float WORM_HEAD_RADIUS = 2;
 const float WORM_ROTATION_SPEED = 400;
 const float PI = 3.1415;
 
-extern sf::Time elapsed_time;
-
 void Worm::init(sf::Color color, sf::Vector2f position, float rotation)
 {
 	this->head.setRadius(WORM_HEAD_RADIUS);
@@ -18,7 +16,7 @@ void Worm::init(sf::Color color, sf::Vector2f position, float rotation)
 	this->next_tailPart = sf::seconds(0.02);
 }
 
-void Worm::update()
+void Worm::update(sf::Time& elapsed_time)
 {
 	this->next_tailPart -= elapsed_time;
 	if(this->next_tailPart.asSeconds() <= 0) {
@@ -27,10 +25,10 @@ void Worm::update()
 	}
 	float rotation = this->head.getRotation();
 	this->head.move(sf::Vector2f(WORM_VELOCITY*cos(rotation * PI/180), WORM_VELOCITY*sin(rotation*PI/180))*elapsed_time.asSeconds());
-	this->updateTailParts();
+	this->updateTailParts(elapsed_time);
 }
 
-void Worm::updateTailParts()
+void Worm::updateTailParts(sf::Time& elapsed_time)
 {
 	for(int i=0; i<tail.size(); i++) {
 		if(!this->tail[i].isActive()) {
@@ -44,7 +42,7 @@ void Worm::addTailPart(sf::CircleShape& shape)
 	this->tail.push_back(TailPart(shape));
 }
 
-void Worm::turn(Direction dir)
+void Worm::turn(Direction dir, sf::Time& elapsed_time)
 {
 	if(dir == Left) {
 		float rotation = this->head.getRotation() -WORM_ROTATION_SPEED*elapsed_time.asSeconds();

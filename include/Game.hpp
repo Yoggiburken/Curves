@@ -7,9 +7,11 @@
 class Game {
 private:
 	std::vector<Command>			commands;
+	std::vector<Worm>				players;
 
 	void							initCommands();
 public:
-	void							run();
+	void							run(int players);
+	int								menu();
 };
 #endif

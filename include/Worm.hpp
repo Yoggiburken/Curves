@@ -16,11 +16,11 @@ private:
 	std::vector<TailPart>			tail;
 	sf::Time						next_tailPart;	
 	virtual void 					draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	void							updateTailParts();
+	void							updateTailParts(sf::Time& elapsed_time);
 public:
 	void							init(sf::Color color, sf::Vector2f position, float rotation);
-	void 							update();
-	void							turn(Direction dir);
+	void 							update(sf::Time& elapsed_time);
+	void							turn(Direction dir, sf::Time& elapsed_time);
 	void							addTailPart(sf::CircleShape& shape);
 	
 	bool							headCollision(Worm& worm);

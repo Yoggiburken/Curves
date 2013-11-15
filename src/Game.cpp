@@ -1,6 +1,6 @@
 #include"../include/Game.hpp"
 
-extern sf::Time elapsed_time;
+extern sf::RenderWindow app;
 
 bool CheckInput(Command& command)
 {
@@ -26,10 +26,26 @@ void Game::initCommands()
 	this->commands.push_back(t_command); 
 }
 
-
-void Game::run()
+int Game::menu()
 {
-	sf::RenderWindow 	app(sf::VideoMode(800, 600, 32), "Test");
+	int players=0;
+	sf::Event event;
+	while(true)
+	{
+		while(app.pollEvent(event))
+		{
+			if(event.type == sf::Event::KeyPressed) {
+				if(event.key.code == sf::Keyboard::Escape) {
+					app.close();
+					return 0;
+				}
+			}
+		}
+	}
+}
+
+void Game::run(int players)
+{
 	sf::View			view;
 						view.setSize(static_cast<sf::Vector2f>(app.getSize()));
 						view.setCenter(400,300);
@@ -41,8 +57,8 @@ void Game::run()
 						worm2.init(sf::Color::Blue, sf::Vector2f(700, 500), 180);
 
 	this->initCommands();
-	
-	sf::Clock clock;
+	sf::Time	elapsed_time;	
+	sf::Clock 	clock;
 
 	while(app.isOpen())
 	{
@@ -57,19 +73,19 @@ void Game::run()
 		elapsed_time = clock.restart();
 	
 		if(CheckInput(this->commands[0])) {
-			worm1.turn(Left);
+			worm1.turn(Left, elapsed_time);
 		}
 		if(CheckInput(this->commands[1])) {
-			worm1.turn(Right);
+			worm1.turn(Right, elapsed_time);
 		}
 		if(CheckInput(this->commands[2])) {
-			worm2.turn(Left);
+			worm2.turn(Left, elapsed_time);
 		}
 		if(CheckInput(this->commands[3])) {
-			worm2.turn(Right);
+			worm2.turn(Right, elapsed_time);
 		}
-		worm1.update();
-		worm2.update();
+		worm1.update(elapsed_time);
+		worm2.update(elapsed_time);
 
 		if(worm1.headCollision(worm2) || worm1.tailCollision(worm2) || worm1.tailCollision(worm1)) {
 			return;
