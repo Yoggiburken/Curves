@@ -41,6 +41,9 @@ int Game::menu()
 				}
 			}
 		}
+
+		app.clear();
+		app.display();
 	}
 }
 
