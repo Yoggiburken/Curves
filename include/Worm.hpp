@@ -17,6 +17,7 @@ private:
 	
 	virtual void 		draw(sf::RenderTarget& target, sf::RenderStates states) const;
 public:
+	void				init(sf::Color color, sf::Vector2f position, float rotation);
 	void 				update();
 	void				turn(Direction dir);
 };
