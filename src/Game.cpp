@@ -3,12 +3,21 @@
 
 extern sf::Time elapsed_time;
 
+bool CheckInput(Command& command)
+{
+	if(command.myInputType == KeyboardInput) {
+		return sf::Keyboard::isKeyPressed(command.myKeyCode); 
+	} else if(command.myInputType == MouseInput) {
+		return sf::Mouse::isButtonPressed(command.myButton);
+	}
+	return false;
+}
+
 void Game::initCommands()
 {
 	Command	t_command;
 			t_command = KeyboardInput;
 			t_command = sf::Keyboard::Left;
-			t_command = sf::Event::KeyPressed;
 	this->commands["Player1Left"]	= t_command; 
 			t_command = sf::Keyboard::Right;
 	this->commands["Player1Right"]	= t_command; 
@@ -39,7 +48,13 @@ void Game::run()
 			}
 		}
 		elapsed_time = clock.restart();
-		
+	
+		if(CheckInput(this->commands["Player1Left"])) {
+			worm1.turn(Left);
+		}
+		if(CheckInput(this->commands["Player1Right"])) {
+			worm1.turn(Right);
+		}
 		worm1.update();
 		worm2.update();
 

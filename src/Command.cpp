@@ -4,7 +4,6 @@
 void Command::operator=(const Command& other)
 {
 	this->myInputType 	= other.myInputType;
-	this->myEventType 	= other.myEventType;
 	this->myKeyCode		= other.myKeyCode;
 	this->myButton		= other.myButton;
 }

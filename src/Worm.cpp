@@ -2,7 +2,7 @@
 
 #include<cmath>
 
-const float WORM_VELOCITY = 200;
+const float WORM_VELOCITY = 100;
 
 extern sf::Time elapsed_time;
 
@@ -24,9 +24,9 @@ void Worm::update()
 void Worm::turn(Direction dir)
 {
 	if(dir == Left) {
-		this->head.setRotation(this->head.getRotation()+100*elapsed_time.asSeconds());
+		this->head.setRotation(this->head.getRotation()+10*elapsed_time.asSeconds());
 	} else if(dir == Right) {
-		this->head.setRotation(this->head.getRotation()-100*elapsed_time.asSeconds());
+		this->head.setRotation(this->head.getRotation()-10*elapsed_time.asSeconds());
 	}
 }
 
