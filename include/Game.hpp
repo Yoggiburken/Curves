@@ -1,4 +1,4 @@
-#include<map>
+#include<vector>
 #include"Command.hpp"
 #include"Worm.hpp"
 
@@ -6,7 +6,7 @@
 #define GAME_HPP
 class Game {
 private:
-	std::map<std::string, Command>	commands;
+	std::vector<Command>			commands;
 
 	void							initCommands();
 public:

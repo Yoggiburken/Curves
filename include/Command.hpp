@@ -11,7 +11,7 @@ enum InputType {
 struct Command {
 	InputType 					myInputType;
 	sf::Keyboard::Key			myKeyCode;
-	sf::Mouse::Button 			myButton;
+	sf::Mouse::Button			myButton;
 
 	void operator=(const Command& other);
 	void operator=(const InputType& other);
