@@ -14,11 +14,6 @@ void Command::operator=(const InputType& other)
 	this->myInputType 	= other;
 }
 
-void Command::operator=(const sf::Event::EventType& other)
-{
-	this->myEventType	= other;
-}
-	
 void Command::operator=(const sf::Keyboard::Key& other)
 {
 	this->myKeyCode 	= other;
