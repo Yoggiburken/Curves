@@ -4,6 +4,12 @@
 
 #ifndef WORM_HPP
 #define WORM_HPP
+
+enum Direction {
+	Left,
+	Right
+};
+
 class Worm : public sf::Drawable {
 private:
 	sf::CircleShape		head;
@@ -11,6 +17,7 @@ private:
 	
 	virtual void 		draw(sf::RenderTarget& target, sf::RenderStates states) const;
 public:
-	void 				update();	
+	void 				update();
+	void				turn(Direction dir);
 };
 #endif
