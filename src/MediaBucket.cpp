@@ -1,7 +1,6 @@
 #include"../include/MediaBucket.hpp"
 #include<fstream>
 #include<sstream>
-#include<iostream>
 
 void MediaBucket::loadMedia(std::string filename)
 {

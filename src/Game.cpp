@@ -2,6 +2,11 @@
 
 extern sf::RenderWindow app;
 
+Game::Game()
+{
+	this->mediabucket.loadFontFromFile("resources/VT323-Regular.ttf");
+}
+
 bool CheckInput(Command& command)
 {
 	if(command.myInputType == KeyboardInput) {
@@ -12,7 +17,7 @@ bool CheckInput(Command& command)
 	return false;
 }
 
-void Game::initCommands(int number_of_players)
+void Game::initCommands()
 {
 	int i=0;
 	Command 	t_command;
@@ -39,10 +44,28 @@ void Game::initCommands(int number_of_players)
 	}
 }
 
-int Game::menu()
+void Game::initMenuButtons()
 {
+	Button 	t_button;
+			t_button.setFont(this->mediabucket.getFont("VT323-Regular.ttf"));
+			t_button.setTextCharacterSize(30);	
+			t_button.setSize(sf::Vector2f(200, 100));
+			t_button.setFillColor(sf::Color::Black);
+			t_button.setOutlineColor(sf::Color::White);
+			t_button.setOutlineThickness(5);
 
-	int players=0;
+			t_button.setText("Play");
+			t_button.setPosition(sf::Vector2f(app.getSize().x/2, app.getSize().y/2) + sf::Vector2f(0, -60));
+	this->menu_buttons.push_back(t_button);
+			t_button.setText("Exit");
+			t_button.setPosition(sf::Vector2f(app.getSize().x/2, app.getSize().y/2) + sf::Vector2f(0, 60));
+	this->menu_buttons.push_back(t_button);
+}
+
+Game::Menu_RS Game::menu()
+{
+	this->number_of_players = 0;
+	this->initMenuButtons();
 	sf::Event event;
 	while(true)
 	{
@@ -51,17 +74,20 @@ int Game::menu()
 			if(event.type == sf::Event::KeyPressed) {
 				if(event.key.code == sf::Keyboard::Escape) {
 					app.close();
-					return 0;
+					return Game::Exit;
 				}
 			}
 		}
 
 		app.clear();
+		for(int i=0; i<this->menu_buttons.size(); i++) {
+			app.draw(this->menu_buttons[i]);
+		}
 		app.display();
 	}
 }
 
-void Game::run(int number_of_players)
+void Game::run()
 {
 	srand(time(NULL));
 	sf::View			view;
@@ -75,7 +101,7 @@ void Game::run(int number_of_players)
 	for(int i=0; i<number_of_players; i++) {
 		this->players[i].init(sf::Color(rand()%256, rand()%256, rand()%256), sf::Vector2f(rand()%600+100, rand()%400+100), rand()%360);
 	}
-	this->initCommands(number_of_players);
+	this->initCommands();
 	
 	sf::Time	elapsed_time;	
 	sf::Clock 	clock;

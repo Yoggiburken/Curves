@@ -7,12 +7,13 @@ private:
 	sf::RectangleShape	shape;
 	sf::Text			text;
 	
+	sf::Color			fill_color;
+	sf::Color			outline_color;
+		
 	bool				active;
 
 	virtual void		draw(sf::RenderTarget& target, sf::RenderStates states) const;
 public:
-						Button();
-	
 	void				setPosition(sf::Vector2f position);
 	void				setSize(sf::Vector2f size);
 	void				setFillColor(sf::Color color);
@@ -20,9 +21,10 @@ public:
 	void				setOutlineColor(sf::Color color);
 	void				setOutlineThickness(float thickness);
 
+	void				setFont(sf::Font& font);
 	void				setText(std::string text);
-	void				setTextColor(sf::Color color);
-	
+	void				setTextCharacterSize(unsigned int size);
+		
 	void				setActive(bool active);
 
 	bool				isActive();
