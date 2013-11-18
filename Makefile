@@ -1,6 +1,6 @@
 NAME = Curves
 CC=g++
-CPPLIBS=  -framework sfml-graphics -framework sfml-audio -framework sfml-network -framework sfml-window -framework sfml-system
+CPPLIBS=  libsfml-graphics.2.1.dylib libsfml-audio.2.1.dylib libsfml-window.2.1.dylib libsfml-system.2.1.dylib
 #CPPFLAGS=
 
 ## Dependencies ##
