@@ -22,7 +22,9 @@ void Worm::update(sf::Time& elapsed_time)
 	this->next_tailPart -= elapsed_time;
 	if(this->next_tailPart.asSeconds() <= 0) {
 		this->addTailPart(this->head);
-		this->next_tailPart = sf::seconds(0.02);
+	/*	this->tail_texture.draw(this->head);
+		this->tail_sprite.setTexture(this->tail_texture.getTexture());
+	*/	this->next_tailPart = sf::seconds(0.02);
 	}
 	float rotation = this->head.getRotation();
 	this->head.move(sf::Vector2f(WORM_VELOCITY*cos(rotation * PI/180), WORM_VELOCITY*sin(rotation*PI/180))*elapsed_time.asSeconds());
@@ -57,9 +59,7 @@ void Worm::turn(Direction dir, sf::Time& elapsed_time)
 void Worm::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(this->head);
-	for(int i=0; i<this->tail.size(); i++) {
-		target.draw(this->tail[i]);
-	}
+	//target.draw(this->tail_sprite);
 }
 
 

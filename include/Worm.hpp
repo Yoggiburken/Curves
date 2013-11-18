@@ -5,19 +5,20 @@
 #ifndef WORM_HPP
 #define WORM_HPP
 
-enum Direction {
-	Left,
-	Right
-};
 
 class Worm : public sf::Drawable {
 private:
 	sf::CircleShape					head;
 	std::vector<TailPart>			tail;
 	sf::Time						next_tailPart;	
+	
 	virtual void 					draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void							updateTailParts(sf::Time& elapsed_time);
 public:
+	enum Direction {
+		Left,
+		Right
+	};
 	void							init(sf::Color color, sf::Vector2f position, float rotation);
 	void 							update(sf::Time& elapsed_time);
 	void							turn(Direction dir, sf::Time& elapsed_time);

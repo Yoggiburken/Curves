@@ -94,10 +94,10 @@ void Game::run(int number_of_players)
 		
 		for(int i=0; i<this->commands.size()/2; i++) {
 			if(CheckInput(this->commands[2*i])) {
-				this->players[i].turn(Left, elapsed_time);
+				this->players[i].turn(Worm::Left, elapsed_time);
 			}
 			if(CheckInput(this->commands[1+2*i])) {
-				this->players[i].turn(Right, elapsed_time);
+				this->players[i].turn(Worm::Right, elapsed_time);
 			}
 		}
 		
