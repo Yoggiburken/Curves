@@ -62,7 +62,7 @@ void Button::setActive(bool active)
 	if(active == true) {
 		this->shape.setOutlineColor(this->fill_color);
 		this->shape.setFillColor(this->outline_color);
-		this->text.setColor(outline_color);
+		this->text.setColor(fill_color);
 	} else if(active == false) {
 		this->shape.setOutlineColor(this->outline_color);
 		this->shape.setFillColor(this->fill_color);

@@ -1,6 +1,15 @@
 #include"../include/Game.hpp"
 
+#include<sstream>
+
 extern sf::RenderWindow app;
+
+std::string itos(int i)
+{
+	std::stringstream ss;
+	ss<<i;
+	return ss.str();
+}
 
 Game::Game()
 {
@@ -44,7 +53,7 @@ void Game::initCommands()
 	}
 }
 
-void Game::initMenuButtons()
+void Game::initMainMenuButtons()
 {
 	Button 	t_button;
 			t_button.setFont(this->mediabucket.getFont("VT323-Regular.ttf"));
@@ -65,7 +74,11 @@ void Game::initMenuButtons()
 Game::Menu_RS Game::menu()
 {
 	this->number_of_players = 0;
-	this->initMenuButtons();
+	this->initMainMenuButtons();
+
+	int active_button = 0;
+	this->menu_buttons[active_button].setActive(true);
+
 	sf::Event event;
 	while(true)
 	{
@@ -75,6 +88,27 @@ Game::Menu_RS Game::menu()
 				if(event.key.code == sf::Keyboard::Escape) {
 					app.close();
 					return Game::Exit;
+				} else if(event.key.code == sf::Keyboard::Up) {
+					this->menu_buttons[active_button].setActive(false);
+					active_button++;
+					if(active_button > 1) {
+						active_button = 0;
+					}
+					this->menu_buttons[active_button].setActive(true);
+				} else if(event.key.code == sf::Keyboard::Down) {
+					this->menu_buttons[active_button].setActive(false);
+					active_button--;
+					if(active_button < 0) {
+						active_button = 1;
+					}
+					this->menu_buttons[active_button].setActive(true);
+				} else if(event.key.code == sf::Keyboard::Return) {
+					this->menu_buttons.clear();
+					if(active_button == 0) {
+						return Game::Play;
+					} else if(active_button == 1) {
+						return Game::Exit;
+					}
 				}
 			}
 		}
@@ -87,8 +121,99 @@ Game::Menu_RS Game::menu()
 	}
 }
 
+void Game::initPreparationMenu()
+{
+	Button 	t_button;
+			t_button.setFont(this->mediabucket.getFont("VT323-Regular.ttf"));
+			t_button.setTextCharacterSize(30);	
+			t_button.setSize(sf::Vector2f(200, 100));
+			t_button.setFillColor(sf::Color::Black);
+			t_button.setOutlineColor(sf::Color::White);
+			t_button.setOutlineThickness(5);
+
+	this->number_of_players = 0;
+			std::string number_of_players_string = "Players: " + itos(this->number_of_players);
+			t_button.setText(number_of_players_string);
+			t_button.setPosition(sf::Vector2f(app.getSize().x/2, app.getSize().y/2));
+	this->menu_buttons.push_back(t_button);
+}
+
+void Game::preparationMenu()
+{
+	this->initPreparationMenu();
+	int active_button = 0;
+
+	sf::Event event;
+
+	while(true)
+	{
+		while(app.pollEvent(event))
+		{
+			if(event.type == sf::Event::KeyPressed) {
+				if(event.key.code == sf::Keyboard::Escape) {
+					return;
+				} else if(event.key.code == sf::Keyboard::Up) {
+					this->menu_buttons[active_button].setActive(false);
+					active_button++;
+					if(active_button == this->menu_buttons.size()) {
+						active_button = 0;
+					}
+					this->menu_buttons[active_button].setActive(true);
+				} else if(event.key.code == sf::Keyboard::Down) {
+					this->menu_buttons[active_button].setActive(false);
+					active_button--;
+					if(active_button < 0) {
+						active_button = this->menu_buttons.size()-1;
+					}
+					this->menu_buttons[active_button].setActive(true);
+				} else if(active_button == 0) {
+					if(event.key.code == sf::Keyboard::Left) {
+						if(number_of_players > 0) {
+							this->number_of_players--;
+							this->menu_buttons.erase(this->menu_buttons.begin() + this->menu_buttons.size()-1);
+						}
+					} else if(event.key.code == sf::Keyboard::Right) {
+						if(number_of_players < 8) {
+							this->number_of_players++;
+							Button 	t_button;
+									t_button.setFont(this->mediabucket.getFont("VT323-Regular.ttf"));
+									t_button.setTextCharacterSize(30);	
+									t_button.setSize(sf::Vector2f(190, 90));
+									t_button.setFillColor(sf::Color::Black);
+									t_button.setOutlineColor(sf::Color::White);
+									t_button.setOutlineThickness(5);
+									t_button.setText("Player" + itos(number_of_players));
+									sf::Vector2f position;
+									
+									if(this->number_of_players > 4) {
+										position.y =  50+ app.getSize().y-100;
+										position.x = 100+200*(this->number_of_players-5);
+									} else {
+										position.y = -50 + app.getSize().y-100;
+										position.x = 100+200*(this->number_of_players-1);
+									}
+
+									t_button.setPosition(position);
+							this->menu_buttons.push_back(t_button);
+						}
+					}
+				}
+				else if(event.key.code == sf::Keyboard::Return) {
+				}
+			}
+		}
+		app.clear();
+		for(int i=0; i<this->menu_buttons.size(); i++) {
+			app.draw(this->menu_buttons[i]);
+		}
+		app.display();
+	}
+}
+
 void Game::run()
 {
+	this->preparationMenu();
+
 	srand(time(NULL));
 	sf::View			view;
 						view.setSize(static_cast<sf::Vector2f>(app.getSize()));
