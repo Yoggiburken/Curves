@@ -1,10 +1,15 @@
 #include"../include/Game.hpp"
 
+#include"../include/MediaBucket.hpp"
+
+MediaBucket mediabucket;
+
 sf::RenderWindow 	app(sf::VideoMode(800, 600, 32), "Test");
 
 int main()
 {
 	Game 	game;
+			game.run(10);
 	while(app.isOpen())
 	{
 		int players = game.menu();

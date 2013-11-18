@@ -28,6 +28,7 @@ void Game::initCommands()
 
 int Game::menu()
 {
+
 	int players=0;
 	sf::Event event;
 	while(true)
@@ -47,15 +48,22 @@ int Game::menu()
 	}
 }
 
-void Game::run(int players)
+void Game::run(int number_of_players)
 {
+	srand(time(NULL));
 	sf::View			view;
 						view.setSize(static_cast<sf::Vector2f>(app.getSize()));
-						view.setCenter(400,300);
+						view.setCenter(view.getSize().x/2, view.getSize().y/2);
 	app.setView(view);
 	sf::Event			event;
 	
+	this->players.resize(number_of_players, Worm());	
+	
+	for(int i=0; i<number_of_players; i++) {
+		this->players[i].init(sf::Color(rand()%256, rand()%256, rand()%256), sf::Vector2f(rand()%600+100, rand()%400+100), rand()%360);
+	}
 	this->initCommands();
+	
 	sf::Time	elapsed_time;	
 	sf::Clock 	clock;
 
@@ -70,8 +78,15 @@ void Game::run(int players)
 			}
 		}
 		elapsed_time = clock.restart();
-	
+		
+		for(int i=0; i<this->players.size(); i++) {
+			this->players[i].update(elapsed_time);
+		}
+			
 		app.clear();
+		for(int i=0; i<this->players.size(); i++) {
+			app.draw(this->players[i]);
+		}
 		app.display();
 	}
 }

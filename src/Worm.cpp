@@ -10,6 +10,7 @@ const float PI = 3.1415;
 void Worm::init(sf::Color color, sf::Vector2f position, float rotation)
 {
 	this->head.setRadius(WORM_HEAD_RADIUS);
+	this->head.setOrigin(sf::Vector2f(this->head.getLocalBounds().width/2, this->head.getLocalBounds().height/2));
 	this->head.setFillColor(color);
 	this->head.setPosition(position);
 	this->head.setRotation(rotation);
