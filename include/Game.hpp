@@ -9,9 +9,9 @@ private:
 	std::vector<Command>			commands;
 	std::vector<Worm>				players;
 
-	void							initCommands();
+	void							initCommands(int number_of_players);
 public:
-	void							run(int players);
+	void							run(int number_of_players);
 	int								menu();
 };
 #endif
