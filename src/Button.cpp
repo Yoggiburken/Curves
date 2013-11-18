@@ -43,4 +43,6 @@ void Button::setActive(bool active)
 {}
 
 bool Button::isActive()
-{}
+{
+	return active;
+}
