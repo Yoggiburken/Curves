@@ -151,6 +151,7 @@ void Game::preparationMenu()
 		{
 			if(event.type == sf::Event::KeyPressed) {
 				if(event.key.code == sf::Keyboard::Escape) {
+					this->menu_buttons.clear();
 					return;
 				} else if(event.key.code == sf::Keyboard::Up) {
 					this->menu_buttons[active_button].setActive(false);
@@ -171,6 +172,8 @@ void Game::preparationMenu()
 						if(number_of_players > 0) {
 							this->number_of_players--;
 							this->menu_buttons.erase(this->menu_buttons.begin() + this->menu_buttons.size()-1);
+							this->commands.erase(this->commands.begin() + this->commands.size()-1);
+							this->commands.erase(this->commands.begin() + this->commands.size()-1);
 						}
 					} else if(event.key.code == sf::Keyboard::Right) {
 						if(number_of_players < 8) {
@@ -195,10 +198,17 @@ void Game::preparationMenu()
 
 									t_button.setPosition(position);
 							this->menu_buttons.push_back(t_button);
+							this->commands.push_back(Command());
+							this->commands.push_back(Command());
 						}
 					}
 				}
-				else if(event.key.code == sf::Keyboard::Return) {
+				else if(event.key.code == sf::Keyboard::Return && active_button > 0) {
+					this->commands[2*(active_button-1)].bindNextKeypress = true;
+					this->commands[2*(active_button-1)+1].bindNextKeypress = true;
+				} else if(event.key.code == sf::Keyboard::Return) {
+					this->menu_buttons.clear();
+					return;
 				}
 			}
 		}
@@ -237,7 +247,7 @@ void Game::run()
 		{
 			if(event.type == sf::Event::KeyPressed) {
 				if(event.key.code == sf::Keyboard::Escape) {
-					app.close();
+					return;
 				}
 			}
 		}

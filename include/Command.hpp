@@ -12,6 +12,7 @@ struct Command {
 	InputType 					myInputType;
 	sf::Keyboard::Key			myKeyCode;
 	sf::Mouse::Button			myButton;
+	bool						bindNextKeypress;
 
 	void operator=(const Command& other);
 	void operator=(const InputType& other);
