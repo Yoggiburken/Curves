@@ -2,9 +2,9 @@
 
 #include<cmath>
 
-const float WORM_VELOCITY = 100;
+const float WORM_VELOCITY = 60;
 const float WORM_HEAD_RADIUS = 2;
-const float WORM_ROTATION_SPEED = 400;
+const float WORM_ROTATION_SPEED = 300;
 const float PI = 3.1415;
 
 void Worm::init(sf::Color color, sf::Vector2f position, float rotation)
@@ -19,12 +19,16 @@ void Worm::init(sf::Color color, sf::Vector2f position, float rotation)
 
 void Worm::update(sf::Time& elapsed_time)
 {
+	if(sf::Keyboard::isKeyPressed(this->turn_left.myKeyCode)) {
+		this->turn(Worm::Left, elapsed_time);
+	}
+	if(sf::Keyboard::isKeyPressed(this->turn_right.myKeyCode)) {
+		this->turn(Worm::Right, elapsed_time);
+	}
 	this->next_tailPart -= elapsed_time;
 	if(this->next_tailPart.asSeconds() <= 0) {
 		this->addTailPart(this->head);
-	/*	this->tail_texture.draw(this->head);
-		this->tail_sprite.setTexture(this->tail_texture.getTexture());
-	*/	this->next_tailPart = sf::seconds(0.02);
+		this->next_tailPart = sf::seconds(0.02);
 	}
 	float rotation = this->head.getRotation();
 	this->head.move(sf::Vector2f(WORM_VELOCITY*cos(rotation * PI/180), WORM_VELOCITY*sin(rotation*PI/180))*elapsed_time.asSeconds());
@@ -59,9 +63,28 @@ void Worm::turn(Direction dir, sf::Time& elapsed_time)
 void Worm::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(this->head);
-	//target.draw(this->tail_sprite);
+	for(int i=0; i<tail.size(); i++) {
+		target.draw(tail[i]);
+	}
 }
 
+void Worm::setCommand(Worm::Direction direction, sf::Keyboard::Key key)
+{
+	if(direction == Worm::Left) {
+		this->turn_left = key;
+	} else if(direction == Worm::Right) {
+		this->turn_right = key;
+	}
+}
+
+void Worm::setCommandString(Worm::Direction direction, std::string str)
+{
+	if(direction == Worm::Left) {
+		this->turn_left_string = str;
+	} else if(direction == Worm::Right) {
+		this->turn_right_string = str;
+	}
+}
 
 bool Worm::headCollision(Worm& worm)
 {

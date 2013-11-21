@@ -4,6 +4,7 @@ sf::RenderWindow 	app(sf::VideoMode(800, 600, 32), "Test");
 
 int main()
 {
+	app.setVerticalSyncEnabled(true);
 	Game 	game;
 	while(app.isOpen())
 	{
